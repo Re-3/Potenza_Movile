@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#e60000">
+    <title>POTENZA MOBILE | Plataforma de Capacitación SICVE</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="navbar">
+        <div class="logo-container">
+            <div class="logo-box">
+                <img src="LOGO PM.png" alt="Potenza Mobile" class="logo-img">
+            </div>
+            <div>
+                <h1 class="brand-title">POTENZA MOBILE</h1>
+                <p class="brand-subtitle">Plataforma de Capacitación SICVE</p>
+            </div>
+        </div>
+
+        <div class="nav-controls">
+            <button class="theme-toggle" id="themeIcon" onclick="toggleTheme()" title="Cambiar Tema">🌙</button>
+
+            <!-- Selector de Rol -->
+            <select id="selectRol" onchange="manejarCambioRol(this.value)"
+                style="background: var(--bg-input); color: inherit; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px;">
+                <option value="cliente">Modo Empleado / Cliente</option>
+                <option value="admin">Modo Administrador</option>
+            </select>
+
+            <!-- Badge de Rol -->
+            <span class="role-badge cliente" id="roleBadge">EMPLEADO</span>
+
+            <div class="user-avatar" title="Usuario">U</div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="main-container">
+
+        <!-- VISTA 1: Catálogo de Áreas -->
+        <section id="vistaAreas">
+            <div class="intro-content" id="introContent">
+                <div class="intro-inner">
+                    <!-- CARRUSEL DE VIDEOS -->
+                    <div class="video-carousel">
+                        <div class="video-slides" id="videoSlides">
+
+                            <!-- Video 1 -->
+                            <div class="video-slide active">
+                                <div class="video-wrapper">
+                                    <iframe src="https://www.youtube.com/embed/KjP4F7ag4bE"
+                                        title="Video 1 - Introducción SICVE" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen>
+                                    </iframe>
+                                </div>
+                                <p class="video-caption">1. Bienvenida a la plataforma SICVE</p>
+                            </div>
+
+                            <!-- Video 2 -->
+                            <div class="video-slide">
+                                <div class="video-wrapper">
+                                    <iframe src="https://www.youtube.com/embed/7nINBVnJwmE"
+                                        title="Video 2 - Cómo usar la plataforma" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen>
+                                    </iframe>
+                                </div>
+                                <p class="video-caption">2. Cómo navegar y usar cada módulo</p>
+                            </div>
+
+                            <!-- Video 3 -->
+                            <div class="video-slide">
+                                <div class="video-wrapper">
+                                    <iframe src="https://www.youtube.com/embed/pSk3gCSyToQ"
+                                        title="Video 3 - Consejos para la evaluación" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen>
+                                    </iframe>
+                                </div>
+                                <p class="video-caption">3. Consejos para presentar tu evaluación</p>
+                            </div>
+
+                        </div>
+
+                        <!-- Controles del carrusel -->
+                        <div class="carousel-controls">
+                            <button class="carousel-btn prev" onclick="cambiarVideo(-1)" title="Anterior">‹</button>
+
+                            <div class="carousel-dots">
+                                <span class="dot active" onclick="irAVideo(0)"></span>
+                                <span class="dot" onclick="irAVideo(1)"></span>
+                                <span class="dot" onclick="irAVideo(2)"></span>
+                            </div>
+
+                            <button class="carousel-btn next" onclick="cambiarVideo(1)" title="Siguiente">›</button>
+                        </div>
+                    </div>
+
+                    <!-- Texto de bienvenida (derecha) -->
+                    <div class="intro-text">
+                        <h4>¡Bienvenido a la Plataforma de Capacitación SICVE!</h4>
+                        <p>
+                            Esta plataforma está diseñada para que domines los procesos de <strong>Potenza
+                                Mobile</strong>
+                            de forma práctica y evaluable. Aquí encontrarás material de estudio, un simulador
+                            interactivo
+                            y evaluaciones con cronómetro.
+                        </p>
+                        <ul class="intro-list">
+                            <li><strong>📚 Capacitación:</strong> Consulta las guías y manuales de cada área.</li>
+                            <li><strong>🎮 Simulador:</strong> Practica sin límite de tiempo y recibe feedback
+                                inmediato.</li>
+                            <li><strong>📝 Evaluación:</strong> Presenta tu examen oficial (15 minutos).</li>
+                            <li><strong>📊 Resultados:</strong> Consulta tu calificación y descarga tu diploma.</li>
+                        </ul>
+                        <p class="intro-tip">
+                            💡 <strong>Tip:</strong> Completa primero el material de capacitación y el simulador antes
+                            de presentar la evaluación oficial.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- ===== FIN BLOQUE INTRODUCCIÓN ===== -->
+
+            <h2 class="section-title">Áreas de <span>Capacitación</span></h2>
+            <p class="section-desc">Selecciona el área que deseas consultar para comenzar con tu proceso de
+                capacitación.</p>
+
+            <div class="cards-grid">
+                <article class="card" onclick="mostrarArea('cliente')">
+                    <span class="badge disponible">DISPONIBLE</span>
+                    <div class="card-icon">👤</div>
+                    <h3>Atención al Cliente</h3>
+                    <p>Capacitación relacionada con la atención, registro y seguimiento de clientes mediante SICVE.</p>
+                </article>
+
+                <article class="card" onclick="mostrarArea('compras')">
+                    <span class="badge disponible">DISPONIBLE</span>
+                    <div class="card-icon">🛒</div>
+                    <h3>Compras</h3>
+                    <p>Procesos de solicitud, registro y seguimiento de compras dentro de la organización.</p>
+                </article>
+
+                <article class="card" onclick="mostrarArea('almacen')">
+                    <span class="badge disponible">DISPONIBLE</span>
+                    <div class="card-icon">📦</div>
+                    <h3>Almacén</h3>
+                    <p>Capacitación relacionada con el control, recepción y administración de productos.</p>
+                </article>
+
+                <article class="card" onclick="mostrarArea('operaciones')">
+                    <span class="badge disponible">DISPONIBLE</span>
+                    <div class="card-icon">⚙️</div>
+                    <h3>Operaciones</h3>
+                    <p>Procesos operativos y procedimientos internos relacionados con SICVE.</p>
+                </article>
+
+                <article class="card" onclick="mostrarArea('facturacion')">
+                    <span class="badge disponible">DISPONIBLE</span>
+                    <div class="card-icon">📋</div>
+                    <h3>Facturación</h3>
+                    <p>Capacitación sobre procesos de facturación y registro de información.</p>
+                </article>
+
+                <article class="card" onclick="mostrarArea('finanzas')">
+                    <span class="badge disponible">DISPONIBLE</span>
+                    <div class="card-icon">💰</div>
+                    <h3>Finanzas</h3>
+                    <p>Procesos financieros, registros y seguimiento de información administrativa.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- VISTA 2: Panel del Área -->
+        <section id="panel" style="display: none;">
+            <div class="panel-header">
+                <div>
+                    <h2 id="tituloArea" class="section-title">Compras</h2>
+                    <p id="descripcionArea" class="section-desc">Sección de capacitación y gestión para los procesos del
+                        área.</p>
+                </div>
+                <button class="btn-back" onclick="volverInicio()">⬅ Volver a Áreas</button>
+            </div>
+
+            <div class="tabs-bar">
+                <button class="tab-btn active" onclick="seleccionarTab(this, 'capacitacion')">📚 Capacitación</button>
+                <button class="tab-btn" onclick="seleccionarTab(this, 'simulador')">🎮 Simulador</button>
+                <button class="tab-btn" onclick="seleccionarTab(this, 'evaluacion')">📝 Evaluación</button>
+                <button class="tab-btn" onclick="seleccionarTab(this, 'resultados')">📊 Resultados</button>
+            </div>
+
+            <div id="contenidoModulo" class="tab-content"></div>
+        </section>
+
+    </main>
+
+    <!-- MODAL DE ACCESO ADMINISTRADOR -->
+    <div id="modalAdmin" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <h3>🔒 Acceso Administrador</h3>
+            <p class="modal-desc">Ingresa tus credenciales para acceder al panel de gestión.</p>
+
+            <div class="form-group">
+                <label>Usuario:</label>
+                <input type="text" id="adminUser" placeholder="Ej. admin" autocomplete="username">
+            </div>
+
+            <div class="form-group">
+                <label>Contraseña:</label>
+                <input type="password" id="adminPass" placeholder="••••••••" autocomplete="current-password">
+            </div>
+
+            <div id="errorLoginMsg" class="error-msg" style="display: none;"></div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="cerrarModalAdmin()">Cancelar</button>
+                <button type="button" class="btn-entrar" onclick="verificarCredencialesAdmin()">Entrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
