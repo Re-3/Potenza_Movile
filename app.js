@@ -1,4 +1,3 @@
-
 /**
  * POTENZA MOBILE - SICVE
  * Conectado a MySQL
@@ -58,11 +57,9 @@ let materialCapacitacionBD = {
 // Cargar preguntas desde MySQL
 async function cargarPreguntas() {
     try {
-        // Agregamos un timestamp para evitar caché del navegador
         const res = await fetch(`${API_URL}/preguntas.php?t=${Date.now()}`);
         const data = await res.json();
         if (data && typeof data === "object" && !data.error) {
-            // Sobrescribimos completamente las preguntas
             preguntasBD = {
                 compras: data.compras || [],
                 cliente: data.cliente || [],
@@ -217,7 +214,7 @@ function cambiarRol(nuevoRol) {
         const activeTab = document.querySelector('.tab-btn.active');
         if (activeTab) {
             const match = activeTab.getAttribute('onclick')?.match(/'([^']+)'/);
-            const modulo = match ? match[1] : 'capacitacion';
+            const modulo = match ? match[1] : 'material';
             cargarModulo(modulo);
         }
     }
@@ -303,6 +300,29 @@ function seleccionarTab(btnElement, modulo) {
     cargarModulo(modulo);
 }
 
+function cargarModulo(modulo) {
+    const contenidoModulo = document.getElementById('contenidoModulo');
+    if (!contenidoModulo) return;
+
+    clearInterval(temporizadorInterval);
+
+    if (modulo === 'material') {
+        renderMaterialDidactico(contenidoModulo);
+    } else if (modulo === 'capacitacion') {
+        renderCapacitacion(contenidoModulo);
+    } else if (modulo === 'simulador') {
+        renderSimulador(contenidoModulo);
+    } else if (modulo === 'evaluacion') {
+        if (rolActual === 'cliente') {
+            renderEvaluacionCliente(contenidoModulo);
+        } else {
+            renderPanelAdminEvaluacion(contenidoModulo);
+        }
+    } else if (modulo === 'resultados') {
+        renderResultados(contenidoModulo);
+    }
+}
+
 // ============================================
 // MÓDULO: MATERIAL DIDÁCTICO
 // ============================================
@@ -328,28 +348,6 @@ function renderMaterialDidactico(container) {
 
     html += `</div></div>`;
     container.innerHTML = html;
-}
-function cargarModulo(modulo) {
-    const contenidoModulo = document.getElementById('contenidoModulo');
-    if (!contenidoModulo) return;
-
-    clearInterval(temporizadorInterval);
-
-    if (modulo === 'material') {
-        renderMaterialDidactico(contenidoModulo);
-    } else if (modulo === 'capacitacion') {
-        renderCapacitacion(contenidoModulo);
-    } else if (modulo === 'simulador') {
-        renderSimulador(contenidoModulo);
-    } else if (modulo === 'evaluacion') {
-        if (rolActual === 'cliente') {
-            renderEvaluacionCliente(contenidoModulo);
-        } else {
-            renderPanelAdminEvaluacion(contenidoModulo);
-        }
-    } else if (modulo === 'resultados') {
-        renderResultados(contenidoModulo);
-    }
 }
 
 // ============================================
@@ -586,7 +584,8 @@ async function guardarEvaluacion(e) {
         if (data.success) {
             alert(`¡Evaluación enviada con éxito!\nAlumno: ${nombre}\nCalificación: ${calificacion} / 10`);
             const tabs = document.querySelectorAll('.tab-btn');
-            if (tabs[3]) seleccionarTab(tabs[3], 'resultados');
+            // Ahora Resultados es la pestaña 5 (índice 4)
+            if (tabs[4]) seleccionarTab(tabs[4], 'resultados');
         } else {
             alert("Error al guardar la evaluación: " + (data.error || "Error desconocido"));
         }
