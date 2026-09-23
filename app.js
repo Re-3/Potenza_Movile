@@ -287,7 +287,7 @@ function mostrarArea(area) {
     }
 
     const primeraTab = document.querySelectorAll('.tab-btn')[0];
-    if (primeraTab) seleccionarTab(primeraTab, 'capacitacion');
+    if (primeraTab) seleccionarTab(primeraTab, 'material');
 }
 
 function volverInicio() {
@@ -303,13 +303,41 @@ function seleccionarTab(btnElement, modulo) {
     cargarModulo(modulo);
 }
 
+// ============================================
+// MÓDULO: MATERIAL DIDÁCTICO
+// ============================================
+function renderMaterialDidactico(container) {
+    const materiales = materialCapacitacionBD[areaSeleccionada] || [
+        { titulo: "Material Didáctico General", desc: "Recursos de apoyo y material complementario para el área." }
+    ];
+
+    let html = `
+        <div style="text-align: left;">
+            <h2>📖 Material Didáctico (${areaSeleccionada.toUpperCase()})</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Consulta el material de apoyo y recursos didácticos del área.</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">`;
+
+    materiales.forEach(mat => {
+        html += `
+            <div style="background: var(--bg-input); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <h3 style="color: var(--primary-red); margin-bottom: 8px;">📄 ${mat.titulo}</h3>
+                <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 15px;">${mat.desc}</p>
+                <button onclick="alert('Descargando material didáctico...')" class="btn-submit" style="padding: 8px 16px; font-size: 13px;">📥 Descargar</button>
+            </div>`;
+    });
+
+    html += `</div></div>`;
+    container.innerHTML = html;
+}
 function cargarModulo(modulo) {
     const contenidoModulo = document.getElementById('contenidoModulo');
     if (!contenidoModulo) return;
 
     clearInterval(temporizadorInterval);
 
-    if (modulo === 'capacitacion') {
+    if (modulo === 'material') {
+        renderMaterialDidactico(contenidoModulo);
+    } else if (modulo === 'capacitacion') {
         renderCapacitacion(contenidoModulo);
     } else if (modulo === 'simulador') {
         renderSimulador(contenidoModulo);
